@@ -16,4 +16,3 @@ def image_writing(image_data, output_path):
     
     cv2.imwrite(output_path, normalized_image)
     print(f"Image saved to {output_path}")
-
