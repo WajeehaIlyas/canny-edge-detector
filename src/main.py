@@ -6,6 +6,7 @@ import argparse
 import os
 from io_file import image_reading, image_writing
 from mask_generation import mask_size, gd_masks, convolution
+from gradient import compute_gradient_magnitude, compute_gradient_direction
 
 def main(input_path, output_path):
     if not os.path.isfile(input_path):
