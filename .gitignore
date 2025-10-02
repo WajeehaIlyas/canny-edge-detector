@@ -1,3 +1,4 @@
 # Exclude the 'data' and 'results' folders
 data/
 results/
+__pycache__/

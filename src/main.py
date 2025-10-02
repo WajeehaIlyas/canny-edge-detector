@@ -5,6 +5,7 @@
 import argparse
 import os
 from io_file import image_reading, image_writing
+from mask_generation import mask_size, gd_masks, convolution
 
 def main(input_path, output_path):
     if not os.path.isfile(input_path):
@@ -21,6 +22,8 @@ def main(input_path, output_path):
     if image is not None:
         print(f"Saving processed image to: {output_path}")
         image_writing(image, output_path)
+
+    
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Image Processing Script")
