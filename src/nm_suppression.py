@@ -43,4 +43,4 @@ def nm_suppression(magnitude, direction):
             else:
                 suppressed[i, j] = 0
 
-    return suppressed
+    return suppressed, quantized_direction
