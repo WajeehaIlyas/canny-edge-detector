@@ -9,6 +9,7 @@ from io_file import image_reading, image_writing
 from mask_generation import mask_size, gd_masks, convolution
 from gradient import compute_gradient_magnitude, compute_gradient_direction
 from nm_suppression import nm_suppression
+from h_thresholding import hysteresis_thresholding
 
 def main(input_file, output_file, sigma, T, Th, Tl):
     if not os.path.isfile(input_file):
@@ -49,6 +50,17 @@ def main(input_file, output_file, sigma, T, Th, Tl):
     # Step 4: Non-Maxima Suppression
     suppressed_image = nm_suppression(gradient_magnitude, gradient_direction)
     print("Applied non-maxima suppression.")
+
+      # Step 5: Hysteresis Thresholding
+    final_edges = hysteresis_thresholding(suppressed_image, Th, Tl)
+    print("Applied hysteresis thresholding.")
+    
+    # Step 6: Save the final result
+    if final_edges is not None:
+        print(f"Saving final edge-detected image to: {output_file}")
+        image_writing(final_edges, output_file)
+    else:
+        print("Error: Hysteresis thresholding failed, no output image to save.")
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Image Processing Script")
@@ -56,6 +68,8 @@ if __name__ == "__main__":
     parser.add_argument("--output_file", type=str, required=True, help="Path to the output image file.")
     parser.add_argument("--sigma", type=float, required=True, help="Standard deviation for Gaussian smoothing.")
     parser.add_argument("--T", type=float, required=True, help="Threshold value for mask size.")
-    
+    parser.add_argument("--Th", type=float, required=True, help="High threshold for hysteresis.")
+    parser.add_argument("--Tl", type=float, required=True, help="Low threshold for hysteresis.")
+
     args = parser.parse_args()
-    main(args.input_file, args.output_file)
+    main(args.input_file, args.output_file, args.sigma, args.T, args.Th, args.Tl)
